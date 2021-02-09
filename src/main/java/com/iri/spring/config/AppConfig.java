@@ -19,20 +19,20 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
         "com.iri.spring.service",
 })
 public class AppConfig {
-    private Environment env;
+    private final Environment environment;
 
     @Autowired
-    public AppConfig(Environment env) {
-        this.env = env;
+    public AppConfig(Environment environment) {
+        this.environment = environment;
     }
 
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(env.getProperty("db.driver"));
-        dataSource.setUrl(env.getProperty("db.url"));
-        dataSource.setUsername(env.getProperty("db.username"));
-        dataSource.setPassword(env.getProperty("db.password"));
+        dataSource.setDriverClassName(environment.getProperty("db.driver"));
+        dataSource.setUrl(environment.getProperty("db.url"));
+        dataSource.setUsername(environment.getProperty("db.username"));
+        dataSource.setPassword(environment.getProperty("db.password"));
         return dataSource;
     }
 
@@ -42,8 +42,8 @@ public class AppConfig {
                 new LocalSessionFactoryBean();
         localSession.setDataSource(dataSource());
         Properties props = new Properties();
-        props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        props.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
+        props.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         localSession.setHibernateProperties(props);
         localSession.setAnnotatedClasses(User.class);
         return localSession;
