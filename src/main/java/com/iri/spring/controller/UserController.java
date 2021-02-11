@@ -7,13 +7,12 @@ import com.iri.spring.service.mapper.UserMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
@@ -37,13 +36,11 @@ public class UserController {
         userService.add(userFour);
     }
 
-    @ResponseBody
     @GetMapping("/{userId}")
     public UserResponseDto get(@PathVariable Long userId) {
         return userMapper.convertToDto(userService.get(userId));
     }
 
-    @ResponseBody
     @GetMapping
     public List<UserResponseDto> getAllUsers() {
         return userService.listUsers().stream()
